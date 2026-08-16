@@ -6,7 +6,7 @@ gui.Parent = player.PlayerGui
 local dragButton = Instance.new("Frame")
 dragButton.Size = UDim2.new(0, 60, 0, 60)
 dragButton.Position = UDim2.new(0.02, 0, 0.1, 0)
-dragButton.BackgroundColor3 = Color3.fromRGB(0, 150, 255)
+dragButton.BackgroundColor3 = Color3.fromRGB(0, 200, 255)
 dragButton.BorderSizePixel = 0
 dragButton.Parent = gui
 
@@ -23,7 +23,6 @@ label.Font = Enum.Font.Bold
 label.TextSize = 30
 label.Parent = dragButton
 
--- Перетаскивание
 local dragToggle = false
 local dragStart = nil
 local startPos = nil
