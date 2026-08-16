@@ -1,0 +1,174 @@
+-- SUPER PANEL v3.0 (FINAL)
+local player = game.Players.LocalPlayer
+local gui = Instance.new("ScreenGui")
+gui.ResetOnSpawn = false
+gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+gui.Parent = player.PlayerGui
+
+-- ========== ЗАСТАВКА ==========
+local splash = Instance.new("Frame")
+splash.Size = UDim2.new(1, 0, 1, 0)
+splash.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+splash.BorderSizePixel = 0
+splash.ZIndex = 5
+splash.Parent = gui
+
+local splashTitle = Instance.new("TextLabel")
+splashTitle.Size = UDim2.new(1, 0, 0, 80)
+splashTitle.Position = UDim2.new(0, 0, 0.35, 0)
+splashTitle.BackgroundTransparency = 1
+splashTitle.Text = "🔥 SUPER PANEL 🔥"
+splashTitle.TextColor3 = Color3.fromRGB(0, 255, 255)
+splashTitle.Font = Enum.Font.Bold
+splashTitle.TextSize = 50
+splashTitle.TextStrokeColor3 = Color3.fromRGB(0, 150, 200)
+splashTitle.TextStrokeTransparency = 0.3
+splashTitle.Parent = splash
+
+local subText = Instance.new("TextLabel")
+subText.Size = UDim2.new(1, 0, 0, 40)
+subText.Position = UDim2.new(0, 0, 0.5, 0)
+subText.BackgroundTransparency = 1
+subText.Text = "Загрузка..."
+subText.TextColor3 = Color3.fromRGB(150, 150, 200)
+subText.Font = Enum.Font.SourceSans
+subText.TextSize = 20
+subText.Parent = splash
+
+-- Пульсация заголовка
+local pulse = splashTitle:Clone()
+pulse.Parent = splash
+pulse.Text = "🔥 SUPER PANEL 🔥"
+pulse.TextColor3 = Color3.fromRGB(255, 255, 255)
+pulse.TextTransparency = 0.8
+pulse.TextSize = 52
+pulse.BackgroundTransparency = 1
+
+spawn(function()
+    while splash.Parent do
+        pulse.TextTransparency = 0.8
+        task.wait(0.5)
+        pulse.TextTransparency = 0.3
+        task.wait(0.5)
+    end
+end)
+
+-- Анимация появления заставки
+splash.BackgroundTransparency = 0
+for i = 1, 10 do
+    splashTitle.TextSize = 40 + i
+    task.wait(0.03)
+end
+
+task.wait(2)
+
+-- Плавное исчезновение заставки
+for i = 1, 10 do
+    splash.BackgroundTransparency = i / 10
+    splashTitle.TextTransparency = i / 10
+    subText.TextTransparency = i / 10
+    task.wait(0.05)
+end
+splash:Destroy()
+
+-- ========== ОСНОВНАЯ ПАНЕЛЬ ==========
+local main = Instance.new("Frame")
+main.Size = UDim2.new(0, 350, 0, 450)
+main.Position = UDim2.new(0.5, -175, 0.5, -225)
+main.BackgroundColor3 = Color3.fromRGB(15, 15, 25)
+main.BackgroundTransparency = 0.1
+main.BorderSizePixel = 0
+main.ClipsDescendants = true
+main.ZIndex = 10
+main.Parent = gui
+
+-- Неоновая обводка
+local glow = Instance.new("Frame")
+glow.Size = UDim2.new(1, 4, 1, 4)
+glow.Position = UDim2.new(0, -2, 0, -2)
+glow.BackgroundColor3 = Color3.fromRGB(0, 255, 200)
+glow.BackgroundTransparency = 0.7
+glow.BorderSizePixel = 0
+glow.Parent = main
+
+-- Заголовок
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, 0, 0, 45)
+title.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+title.BackgroundTransparency = 0.6
+title.Text = "🚀 SUPER PANEL v3.0"
+title.TextColor3 = Color3.fromRGB(0, 255, 255)
+title.Font = Enum.Font.Bold
+title.TextSize = 28
+title.TextStrokeColor3 = Color3.fromRGB(0, 150, 200)
+title.TextStrokeTransparency = 0.3
+title.Parent = main
+
+-- Градиент
+local gradient = Instance.new("UIGradient")
+gradient.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 50, 80)),
+    ColorSequenceKeypoint.new(0.5, Color3.fromRGB(80, 0, 120)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 50, 80))
+})
+gradient.Parent = main
+
+-- Кнопка закрытия
+local closeBtn = Instance.new("TextButton")
+closeBtn.Size = UDim2.new(0, 30, 0, 30)
+closeBtn.Position = UDim2.new(0.9, 0, 0.02, 0)
+closeBtn.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
+closeBtn.BackgroundTransparency = 0.3
+closeBtn.Text = "✕"
+closeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeBtn.Font = Enum.Font.Bold
+closeBtn.TextSize = 20
+closeBtn.BorderSizePixel = 0
+closeBtn.Parent = main
+
+local closeCorner = Instance.new("UICorner")
+closeCorner.CornerRadius = UDim.new(0, 8)
+closeCorner.Parent = closeBtn
+
+closeBtn.MouseButton1Click:Connect(function()
+    gui:Destroy()
+end)
+
+-- Мигающий статус
+local statusDot = Instance.new("Frame")
+statusDot.Size = UDim2.new(0, 12, 0, 12)
+statusDot.Position = UDim2.new(0.92, 0, 0.03, 0)
+statusDot.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+statusDot.BorderSizePixel = 0
+statusDot.Parent = main
+
+local cornerDot = Instance.new("UICorner")
+cornerDot.CornerRadius = UDim.new(1, 0)
+cornerDot.Parent = statusDot
+
+spawn(function()
+    while main.Parent do
+        statusDot.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+        task.wait(0.5)
+        statusDot.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+        task.wait(0.5)
+    end
+end)
+
+-- Плейсхолдер для будущих кнопок
+local placeholder = Instance.new("TextLabel")
+placeholder.Size = UDim2.new(0.9, 0, 0, 40)
+placeholder.Position = UDim2.new(0.05, 0, 0.2, 0)
+placeholder.BackgroundTransparency = 1
+placeholder.Text = "📌 Здесь будут кнопки..."
+placeholder.TextColor3 = Color3.fromRGB(150, 150, 180)
+placeholder.Font = Enum.Font.SourceSans
+placeholder.TextSize = 20
+placeholder.Parent = main
+
+-- Плавное появление панели
+main.BackgroundTransparency = 1
+for i = 1, 10 do
+    main.BackgroundTransparency = main.BackgroundTransparency - 0.1
+    task.wait(0.03)
+end
