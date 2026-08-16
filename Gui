@@ -90,4 +90,4 @@ end)
 dragButton.MouseButton1Click:Connect(function()
     print("Открываем меню!")
     -- Позже здесь будет вызов основного меню
-end)
+end
