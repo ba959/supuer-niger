@@ -23,35 +23,34 @@ label.Font = Enum.Font.Bold
 label.TextSize = 30
 label.Parent = dragButton
 
-local dragToggle = false
-local dragStart = nil
-local startPos = nil
+-- ========== ПЕРЕТАСКИВАНИЕ (FIX) ==========
+local dragging = false
+local dragStartPos = nil
+local dragStartMouse = nil
 
 dragButton.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragToggle = true
-        dragStart = input.Position
-        startPos = dragButton.Position
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStartPos = dragButton.Position
+        dragStartMouse = input.Position
     end
 end)
 
 dragButton.InputEnded:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragToggle = false
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = false
     end
 end)
 
-dragButton.InputChanged:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseMovement then
-        if dragToggle then
-            local delta = input.Position - dragStart
-            dragButton.Position = UDim2.new(
-                startPos.X.Scale,
-                startPos.X.Offset + delta.X,
-                startPos.Y.Scale,
-                startPos.Y.Offset + delta.Y
-            )
-        end
+game:GetService("UserInputService").InputChanged:Connect(function(input)
+    if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+        local delta = input.Position - dragStartMouse
+        dragButton.Position = UDim2.new(
+            dragStartPos.X.Scale,
+            dragStartPos.X.Offset + delta.X,
+            dragStartPos.Y.Scale,
+            dragStartPos.Y.Offset + delta.Y
+        )
     end
 end)
 
